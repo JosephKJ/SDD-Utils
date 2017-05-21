@@ -1,4 +1,6 @@
-def split_and_annotate():
+import os
+
+def split_and_annotate(videos_to_be_processed, percent_of_test_images):
     pass
 
 if __name__ == '__main__':
@@ -10,6 +12,7 @@ if __name__ == '__main__':
                               'little':(0,1,2,3),
                               'nexus':(0,1,2,3,4,5,6,7,8,9,10,11),
                               'quad':(0,1,2,3)}
+
     videos_to_be_processed = {'bookstore': (0),
                               'coupa': (),
                               'deathCircle': (),
@@ -19,7 +22,8 @@ if __name__ == '__main__':
                               'nexus': (),
                               'quad': ()}
 
-
     percent_of_test_images = 0.3
+
+    assert os.path.exists("./StanfordDroneDataset"), "StanfordDroneDataset should be found in the pwd."
 
     split_and_annotate(videos_to_be_processed, percent_of_test_images)
