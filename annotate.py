@@ -22,6 +22,9 @@ def init_directories():
 def split_video(video_file, image_name_prefix):
     return subprocess.check_output('ffmpeg -i ' + os.path.abspath(video_file) + ' '+ image_name_prefix +'%d.jpg', shell=True, cwd=os.path.join(destination_path, 'JPEGImages'))
 
+def log(message, level='info'):
+    print message
+
 
 def split_and_annotate():
     assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
@@ -40,10 +43,15 @@ def split_and_annotate():
                 # Check whether the video has already been made into frames
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
                 image_name_prefix = scene + '_video' + str(video_index) + '_'
+                video_file = os.path.join(video_path, 'video.mov')
                 if count_files(jpeg_image_path, image_name_prefix) == 0:
                     # Split Video
-                    video_file = os.path.join(video_path, 'video.mov')
+                    log('Splitting ' + video_file)
                     split_video(video_file, image_name_prefix)
+                    log('Splitting ' + video_file + ' complete.')
+                else:
+                    log(video_file + 'is already split into frames. Skipping...')
+
 
 
 
