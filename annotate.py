@@ -1,7 +1,36 @@
 import os
 
-def split_and_annotate(videos_to_be_processed):
-    pass
+
+def assert_path(path, error_message):
+    assert os.path.exists(path), error_message
+
+
+def count_files(path, filename_starts_with=''):
+    files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))
+                     and f.startswith(filename_starts_with)]
+    return len(files)
+
+
+def split_and_annotate():
+    assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
+
+    for scene in videos_to_be_processed:
+        path = os.path.join(dataset_path, 'videos', scene)
+        assert_path(path, path + ' not found.')
+
+        videos = videos_to_be_processed.get(scene)
+        if len(videos) > 0:
+            for video_index in videos.keys():
+                video_path = os.path.join(path, 'video' + str(video_index))
+                assert_path(video_path, video_path + ' not found.')
+                assert count_files(video_path) == 1, video_path+' should contain one file.'
+                print video_path
+
+                # Check whether the video has already been made into frames
+                jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
+                if count_files(jpeg_image_path, scene + '_video' + video_index + '_') == 0:
+                    pass
+
 
 if __name__ == '__main__':
 
@@ -28,16 +57,19 @@ if __name__ == '__main__':
     # 'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
     # 'quad'        scene contains videos: (0, 1, 2, 3)
     # --------------------------------------------------------
+    #
+    # videos_to_be_processed = {'bookstore': {0: (.6, .2, .2), 5: (.6, .2, .2)}}
 
-    videos_to_be_processed = {'bookstore': ({0:(.7, .2, .1)}),
-                              'coupa': (),
-                              'deathCircle': (),
-                              'gates': (),
-                              'hyang': (),
-                              'little': (),
-                              'nexus': (),
-                              'quad': ()}
+    videos_to_be_processed = {'bookstore': {0: (.6, .2, .2)},
+                              'coupa': {},
+                              'deathCircle': {},
+                              'gates': {},
+                              'hyang': {},
+                              'little': {},
+                              'nexus': {},
+                              'quad': {}}
 
-    assert os.path.exists("./StanfordDroneDataset"), "StanfordDroneDataset should be found in the cwd of this script."
+    dataset_path = './StanfordDroneDataset'
+    destination_path = os.path.join(dataset_path, 'sdd')
 
-    split_and_annotate(videos_to_be_processed)
+    split_and_annotate()
