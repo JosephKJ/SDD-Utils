@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 
 def assert_path(path, error_message):
@@ -9,6 +10,15 @@ def count_files(path, filename_starts_with=''):
     files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))
                      and f.startswith(filename_starts_with)]
     return len(files)
+
+def split_video(video_file, image_name_prefix):
+    if not os.path.exists(destination_path):
+        os.makedirs(os.path.join(destination_path, 'JPEGImages'))
+        os.makedirs(os.path.join(destination_path, 'ImageSets', 'Main'))
+        os.makedirs(os.path.join(destination_path, 'Annotations'))
+
+    subprocess.call(['cd', os.path.join(destination_path, 'JPEGImages')])
+    return subprocess.check_output(['ffmpeg', '-i', video_file, image_name_prefix + '%d.jpg'])
 
 
 def split_and_annotate():
@@ -28,8 +38,12 @@ def split_and_annotate():
 
                 # Check whether the video has already been made into frames
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
-                if count_files(jpeg_image_path, scene + '_video' + str(video_index) + '_') == 0:
-                    pass
+                image_name_prefix = scene + '_video' + str(video_index) + '_'
+                if count_files(jpeg_image_path, image_name_prefix) == 0:
+                    # Split Video
+                    video_file = os.path.join(video_path, 'video.mov')
+                    split_video(video_file, image_name_prefix)
+
 
 
 if __name__ == '__main__':
