@@ -28,7 +28,7 @@ def split_and_annotate():
 
                 # Check whether the video has already been made into frames
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
-                if count_files(jpeg_image_path, scene + '_video' + video_index + '_') == 0:
+                if count_files(jpeg_image_path, scene + '_video' + str(video_index) + '_') == 0:
                     pass
 
 
