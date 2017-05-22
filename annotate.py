@@ -23,7 +23,7 @@ def split_video(video_file, image_name_prefix):
     return subprocess.check_output('ffmpeg -i ' + os.path.abspath(video_file) + ' '+ image_name_prefix +'%d.jpg', shell=True, cwd=os.path.join(destination_path, 'JPEGImages'))
 
 def log(message, level='info'):
-    print '<'+level+'>' + message
+    print '<'+level+'>\t' + message
 
 
 def split_and_annotate():
