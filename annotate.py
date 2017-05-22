@@ -11,19 +11,22 @@ def count_files(path, filename_starts_with=''):
                      and f.startswith(filename_starts_with)]
     return len(files)
 
-def split_video(video_file, image_name_prefix):
+
+def init_directories():
     if not os.path.exists(destination_path):
         os.makedirs(os.path.join(destination_path, 'JPEGImages'))
         os.makedirs(os.path.join(destination_path, 'ImageSets', 'Main'))
         os.makedirs(os.path.join(destination_path, 'Annotations'))
 
+
+def split_video(video_file, image_name_prefix):
     subprocess.call(['cd', os.path.join(destination_path, 'JPEGImages')])
     return subprocess.check_output(['ffmpeg', '-i', video_file, image_name_prefix + '%d.jpg'])
 
 
 def split_and_annotate():
     assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
-
+    init_directories()
     for scene in videos_to_be_processed:
         path = os.path.join(dataset_path, 'videos', scene)
         assert_path(path, path + ' not found.')
