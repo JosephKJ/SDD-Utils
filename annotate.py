@@ -50,7 +50,7 @@ def split_and_annotate():
                     split_video(video_file, image_name_prefix)
                     log('Splitting ' + video_file + ' complete.')
                 else:
-                    log(video_file + 'is already split into frames. Skipping...')
+                    log(video_file + ' is already split into frames. Skipping...')
 
 
 
