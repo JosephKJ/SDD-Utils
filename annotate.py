@@ -21,7 +21,7 @@ def init_directories():
 
 def split_video(video_file, image_name_prefix):
     subprocess.call(['cd', os.path.join(destination_path, 'JPEGImages')], shell=True)
-    return subprocess.check_output(['ffmpeg', '-i', video_file, image_name_prefix + '%d.jpg'], shell=True)
+    return subprocess.check_output('ffmpeg -i ' + video_file + ' '+ image_name_prefix +'%d.jpg', shell=True)
 
 
 def split_and_annotate():
@@ -37,7 +37,6 @@ def split_and_annotate():
                 video_path = os.path.join(path, 'video' + str(video_index))
                 assert_path(video_path, video_path + ' not found.')
                 assert count_files(video_path) == 1, video_path+' should contain one file.'
-                print video_path
 
                 # Check whether the video has already been made into frames
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
