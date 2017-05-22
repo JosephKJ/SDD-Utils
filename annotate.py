@@ -11,8 +11,10 @@ if __name__ == '__main__':
     # Value for each key is a tuple of dictionaries.
     #   - The number of items in the tuple can be atmost the number of videos each 'scene'
     #   - Each dictionary is of the form {video_number:fraction_of_images_to_be_split_into_trainVal_set}
-    #   - eg1: {2:.7} means 0.7 fraction of the images from Video2, should be put into trainVal set and 0.3 to test set.
-    #   - eg2: {4:.8} means 0.8 fraction of the images from Video4, should be put into trainVal set and 0.2 to test set.
+    #   - eg1: {2:(.7, .2, .1)} means 0.7 fraction of the images from Video2, should be put into training set,
+    #                                 0.2 fraction to validation set and
+    #                                 0.1 fraction to test set.
+    #                                 Also, training and validation images are merged into trainVal set.
     # --------------------------------------------------------
     #
     # --------------------------------------------------------
