@@ -20,8 +20,8 @@ def init_directories():
 
 
 def split_video(video_file, image_name_prefix):
-    subprocess.call(['cd', os.path.join(destination_path, 'JPEGImages')])
-    return subprocess.check_output(['ffmpeg', '-i', video_file, image_name_prefix + '%d.jpg'])
+    subprocess.call(['cd', os.path.join(destination_path, 'JPEGImages')], shell=True)
+    return subprocess.check_output(['ffmpeg', '-i', video_file, image_name_prefix + '%d.jpg'], shell=True)
 
 
 def split_and_annotate():
