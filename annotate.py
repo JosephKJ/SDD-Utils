@@ -1,19 +1,33 @@
 import os
 
-def split_and_annotate(videos_to_be_processed, percent_of_test_images):
+def split_and_annotate(videos_to_be_processed):
     pass
 
 if __name__ == '__main__':
-    videos_to_be_processed = {'bookstore':(0,1,2,3,4,5,6),
-                              'coupa':(0,1,2,3),
-                              'deathCircle':(0,1,2,3,4),
-                              'gates':(0,1,2,3,4,5,6,7,8),
-                              'hyang':(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14),
-                              'little':(0,1,2,3),
-                              'nexus':(0,1,2,3,4,5,6,7,8,9,10,11),
-                              'quad':(0,1,2,3)}
 
-    videos_to_be_processed = {'bookstore': (0),
+    # --------------------------------------------------------
+    # videos_to_be_processed is a dictionary.
+    # Keys in this dictionary should match the 'scenes' in Stanford Drone Dataset.
+    # Value for each key is a tuple of dictionaries.
+    #   - The number of items in the tuple can be atmost the number of videos each 'scene'
+    #   - Each dictionary is of the form {video_number:fraction_of_images_to_be_split_into_trainVal_set}
+    #   - eg1: {2:.7} means 0.7 fraction of the images from Video2, should be put into trainVal set and 0.3 to test set.
+    #   - eg2: {4:.8} means 0.8 fraction of the images from Video4, should be put into trainVal set and 0.2 to test set.
+    # --------------------------------------------------------
+    #
+    # --------------------------------------------------------
+    # SDD contains the following 'scenes' and corresponding videos:
+    # 'bookstore'   scene contains videos: (0, 1, 2, 3, 4, 5, 6)
+    # 'coupa'       scene contains videos: (0, 1, 2, 3)
+    # 'deathCircle' scene contains videos: (0, 1, 2, 3, 4)
+    # 'gates'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8)
+    # 'hyang'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+    # 'little'      scene contains videos: (0, 1, 2, 3)
+    # 'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+    # 'quad'        scene contains videos: (0, 1, 2, 3)
+    # --------------------------------------------------------
+
+    videos_to_be_processed = {'bookstore': ({0:(.7, .2, .1)}),
                               'coupa': (),
                               'deathCircle': (),
                               'gates': (),
@@ -22,8 +36,6 @@ if __name__ == '__main__':
                               'nexus': (),
                               'quad': ()}
 
-    percent_of_test_images = 0.3
+    assert os.path.exists("./StanfordDroneDataset"), "StanfordDroneDataset should be found in the cwd of this script."
 
-    assert os.path.exists("./StanfordDroneDataset"), "StanfordDroneDataset should be found in the pwd."
-
-    split_and_annotate(videos_to_be_processed, percent_of_test_images)
+    split_and_annotate(videos_to_be_processed)
