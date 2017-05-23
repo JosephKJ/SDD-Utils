@@ -199,16 +199,17 @@ if __name__ == '__main__':
     # 'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
     # 'quad'        scene contains videos: (0, 1, 2, 3)
     # --------------------------------------------------------
-    #
+    #    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
+    #                           'coupa': {0: (.5, .2, .3)},
+    #                           'deathCircle': {},
+    #                           'gates': {},
+    #                           'hyang': {},
+    #                           'little': {},
+    #                           'nexus': {},
+    #                           'quad': {}}
 
     videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
-                              'coupa': {0: (.5, .2, .3)},
-                              'deathCircle': {},
-                              'gates': {},
-                              'hyang': {},
-                              'little': {},
-                              'nexus': {},
-                              'quad': {}}
+                              'coupa': {0: (.5, .2, .3)}}
 
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd'
