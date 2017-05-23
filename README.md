@@ -60,18 +60,15 @@ Annotations  ImageSets  JPEGImages  pickle_store
 
 
 2. Suppose I need to have training and validation data from the first two videos of 'bookstore' scene and testing from the third video of 'deathCircle' scene, how would `videos_to_be_processed` dictionary look like?
-
-   Ans: 
    
 ```Python
 videos_to_be_processed = {'bookstore': {0: (.5, .5, 0), 1: (.5, .5, 0)},
                         'deathCircle': {2: (0, 0, 1)}}
-   ```
+```
 3. How many scenes are there in Stanford Drone Dataset? How many videos are there in each?
 
-   Ans: 
 ```Shell
-       SDD contains the following 'scenes' and corresponding videos:
+SDD contains the following 'scenes' and corresponding videos:
     'bookstore'   scene contains videos: (0, 1, 2, 3, 4, 5, 6)
     'coupa'       scene contains videos: (0, 1, 2, 3)
     'deathCircle' scene contains videos: (0, 1, 2, 3, 4)
