@@ -3,6 +3,7 @@ import subprocess
 import numpy as np
 import random
 import cPickle
+import cv2
 import xml.etree.cElementTree as ET
 
 
@@ -87,15 +88,19 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
             cPickle.dump(sdd_annotation, fid)
 
     # Create VOC style annotation.
+    first_image_path = os.path.join(destination_path, 'JPEGImages', filename_prefix, '1.jpg')
+    first_image = cv2.imread(first_image_path)
+    height, width, depth = first_image.shape
+
     for frame_number in range(1, number_of_frames+1):
         annotation = ET.Element("annotation")
         ET.SubElement(annotation, "folder").text = destination_folder_name
         source = ET.SubElement(annotation, "source")
         ET.SubElement(source, "database").text = 'Stanford Drone Dataset'
         size = ET.SubElement(annotation, "size")
-        ET.SubElement(size, "width").text = '1000'
-        ET.SubElement(size, "height").text = '1500'
-        ET.SubElement(size, "depth").text = '3'
+        ET.SubElement(size, "width").text = str(width)
+        ET.SubElement(size, "height").text = str(height)
+        ET.SubElement(size, "depth").text = str(depth)
         ET.SubElement(annotation, "segmented").text = '0'
         ET.SubElement(annotation, "filename").text = filename_prefix + str(frame_number)
 
