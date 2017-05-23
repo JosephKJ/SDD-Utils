@@ -59,10 +59,11 @@ Annotations  ImageSets  JPEGImages  pickle_store
    Ans: If the videos specified in `videos_to_be_processed` dictionary is already made into frames, then those videos will not  be again split. The train-validation-test set will be resampled for each run. 
 
 
-2. Suppose I need to have training and validation data from 'bookstore' scene and testing from 'deathCircle' scene, how would `videos_to_be_processed` dictionary look like?
+2. Suppose I need to have training and validation data from the first two videos of 'bookstore' scene and testing from the third video of 'deathCircle' scene, how would `videos_to_be_processed` dictionary look like?
 
    Ans: 
-   ```Python
+   
+```Python
 videos_to_be_processed = {'bookstore': {0: (.5, .5, 0)},
-                              'coupa': {2: (0, 0, 1)}}
+                              'deathCircle': {2: (0, 0, 1)}}
    ```
