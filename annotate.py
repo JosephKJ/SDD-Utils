@@ -49,7 +49,7 @@ def split_dataset(number_of_frames, split_ratio):
     assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
     train, val, test = np.array(split_ratio) * number_of_frames
 
-    test_images = random.sample(range(1, number_of_frames), test)
+    test_images = random.sample(range(1, number_of_frames), int(test))
     print test_images
     print type(test_images)
 
