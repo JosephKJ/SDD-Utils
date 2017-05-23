@@ -171,6 +171,7 @@ def split_and_annotate():
                 split_ratio = videos.get(video_index)
                 split_dataset(number_of_frames, split_ratio, image_name_prefix)
                 log('Successfully created new train-val-test split.')
+    log('Done.')
 
 
 if __name__ == '__main__':
