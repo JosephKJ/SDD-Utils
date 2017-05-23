@@ -170,7 +170,7 @@ def split_and_annotate():
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
                 split_ratio = videos.get(video_index)
                 split_dataset(number_of_frames, split_ratio, image_name_prefix)
-                log('Successfully created new train-val-test split.')
+                log('Successfully created train-val-test split.')
     log('Done.')
 
 
