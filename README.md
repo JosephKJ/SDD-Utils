@@ -31,11 +31,11 @@ Key points:
 * The number of items in the dictionary, can atmost be the number of videos each 'scene'
 * Each item in the dictionary is of the form {video_number:fraction_of_images_to_be_split_into_train_val_test_set}
 
-Example
+Example:
 ```Python
 videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
                               'coupa': {0: (.5, .2, .3)}}
 ```
-Here, the first two videos from bookstore scene from Stanford Drone Dataset will be split into frames, with a train-validation-test split of `(.5, .2, .3)` and `(.2, .1, .1)` respectively. Then the first video from coupa scene will be similarly processed.
+Here, the first two videos from bookstore scene from Stanford Drone Dataset will be split into frames, with a train-validation-test split of `(.5, .2, .3)` and `(.2, .1, .1)` respectively. Then the first video from coupa scene will be processed similarly.
 
 
