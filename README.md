@@ -30,9 +30,9 @@ The videos to be processed and the train-validation-test split can be defined de
 The `videos_to_be_processed` dictionary decides which videos should be processed and what would be its contribution towards train-validation-test set.
 
 Key points:
-* Keys in this dictionary should match the 'scenes' in Stanford Drone Dataset. Value for each key is also a dictionary.
-* The number of items in the dictionary, can atmost be the number of videos each 'scene'
-* Each item in the dictionary is of the form {video_number:fraction_of_images_to_be_split_into_train_val_test_set}
+* Keys in this dictionary should match the 'scenes' in Stanford Drone Dataset. 
+* Value for each key is also a dictionary. The number of items in this dictionary(child), can atmost be the number of videos each 'scene'.
+* Each item in this dictionary(child) is of the form {video_number:fraction_of_images_to_be_split_into_train_val_test_set}
 
 Example:
 ```Python
