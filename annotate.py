@@ -2,6 +2,8 @@ import os
 import subprocess
 import numpy as np
 import random
+import cPickle
+import xml.etree.cElementTree as ET
 
 
 def assert_path(path, error_message):
@@ -25,6 +27,7 @@ def init_directories():
         os.makedirs(os.path.join(destination_path, 'JPEGImages'))
         os.makedirs(os.path.join(destination_path, 'ImageSets', 'Main'))
         os.makedirs(os.path.join(destination_path, 'Annotations'))
+        os.makedirs(os.path.join(destination_path, 'pickle_store'))
 
     # Flush the train-val-test split. A new split will be created each time this script is run.
     for f in os.listdir(os.path.join(destination_path, 'ImageSets', 'Main')):
@@ -71,6 +74,48 @@ def split_dataset(number_of_frames, split_ratio, file_name_prefix):
         write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'), file_name_prefix+str(index))
 
 
+def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_frames):
+
+    # Pickle the actual SDD annotation
+    pickle_file = os.path.join(destination_path, 'pickle_store', filename_prefix + 'annotation.pkl')
+    if os.path.exists(pickle_file):
+        with open(pickle_file, 'rb') as fid:
+            sdd_annotation = cPickle.load(fid)
+    else:
+        sdd_annotation = np.genfromtxt(sdd_annotation_file, delimiter=' ', dtype=np.str)
+        with open(pickle_file, 'wb') as fid:
+            cPickle.dump(sdd_annotation, fid)
+
+    # Create VOC style annotation.
+    for frame_number in range(1, number_of_frames+1):
+        annotation = ET.Element("annotation")
+        ET.SubElement(annotation, "folder").text = destination_folder_name
+        source = ET.SubElement(annotation, "source")
+        ET.SubElement(source, "database").text = 'Stanford Drone Dataset'
+        size = ET.SubElement(annotation, "size")
+        ET.SubElement(size, "width").text = '1000'
+        ET.SubElement(size, "height").text = '1500'
+        ET.SubElement(size, "depth").text = '3'
+        ET.SubElement(annotation, "segmented").text = '0'
+        ET.SubElement(annotation, "filename").text = filename_prefix + str(frame_number)
+
+        annotations_in_frame = sdd_annotation[sdd_annotation[:, 5] == str(frame_number)]
+
+        for annotation_data in annotations_in_frame:
+            object = ET.SubElement(annotation, "object")
+            ET.SubElement(object, "name").text = annotation_data[9].replace('"','')
+            ET.SubElement(object, "pose").text = 'Unspecified'
+            ET.SubElement(object, "truncated").text = annotation_data[7] # occluded
+            ET.SubElement(object, "difficult").text = '0'
+            bndbox = ET.SubElement(object, "bndbox")
+            ET.SubElement(bndbox, "xmin").text = annotation_data[1]
+            ET.SubElement(bndbox, "ymin").text = annotation_data[2]
+            ET.SubElement(bndbox, "xmax").text = annotation_data[3]
+            ET.SubElement(bndbox, "ymax").text = annotation_data[4]
+
+        xml_annotation = ET.ElementTree(annotation)
+        xml_annotation.write(os.path.join(dest_path, filename_prefix + str(frame_number) + ".xml"))
+
 
 def split_and_annotate():
     assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
@@ -86,6 +131,7 @@ def split_and_annotate():
                 assert_path(video_path, video_path + ' not found.')
                 assert count_files(video_path) == 1, video_path+' should contain one file.'
 
+                # Split video into frames
                 # Check whether the video has already been made into frames
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
                 image_name_prefix = scene + '_video' + str(video_index) + '_'
@@ -95,6 +141,18 @@ def split_and_annotate():
                     log('Splitting ' + video_file)
                     split_video(video_file, image_name_prefix)
                     log('Splitting ' + video_file + ' complete.')
+
+                    #Annotate
+                    # log('Annotating frames from '+ video_file)
+                    # sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
+                    #                                    'video', str(video_index), 'annotations.txt')
+                    # assert_path(sdd_annotation_file, 'Annotation file not found. '
+                    #                                  'Trying to access ' + sdd_annotation_file)
+                    # dest_path = os.path.join(destination_path, 'Annotations')
+                    # number_of_frames = count_files(jpeg_image_path, image_name_prefix)
+                    # annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
+                    # log('Annotation Complete.')
+
                 else:
                     log(video_file + ' is already split into frames. Skipping...')
 
@@ -102,6 +160,18 @@ def split_and_annotate():
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
                 split_ratio = videos.get(video_index)
                 split_dataset(number_of_frames, split_ratio, image_name_prefix)
+                log('Successfully created new train-val-test split.')
+
+                # Annotate
+                log('Annotating frames from ' + video_file)
+                sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
+                                                   'video' + str(video_index), 'annotations.txt')
+                assert_path(sdd_annotation_file, 'Annotation file not found. '
+                                                 'Trying to access ' + sdd_annotation_file)
+                dest_path = os.path.join(destination_path, 'Annotations')
+                number_of_frames = count_files(jpeg_image_path, image_name_prefix)
+                annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
+                log('Annotation Complete.')
 
 
 if __name__ == '__main__':
@@ -132,7 +202,7 @@ if __name__ == '__main__':
     #
     # videos_to_be_processed = {'bookstore': {0: (.6, .2, .2), 5: (.6, .2, .2)}}
 
-    videos_to_be_processed = {'bookstore': {0: (.1, .0, .0)},
+    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3)},
                               'coupa': {},
                               'deathCircle': {},
                               'gates': {},
@@ -142,6 +212,9 @@ if __name__ == '__main__':
                               'quad': {}}
 
     dataset_path = './StanfordDroneDataset'
-    destination_path = os.path.join(dataset_path, 'sdd')
+    destination_folder_name = 'sdd'
+    destination_path = os.path.join(dataset_path, destination_folder_name)
 
     split_and_annotate()
+    # 13335
+    # annotate_frames('./StanfordDroneDataset/annotations/bookstore/video0/annotations.txt', './StanfordDroneDataset/sdd/Annotations', 'bookstore_video0_', 3)
