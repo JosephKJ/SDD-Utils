@@ -64,6 +64,6 @@ Annotations  ImageSets  JPEGImages  pickle_store
    Ans: 
    
 ```Python
-videos_to_be_processed = {'bookstore': {0: (.5, .5, 0)},
+videos_to_be_processed = {'bookstore': {0: (.5, .5, 0), 1: (.5, .5, 0)},
                               'deathCircle': {2: (0, 0, 1)}}
    ```
