@@ -54,11 +54,15 @@ Annotations  ImageSets  JPEGImages  pickle_store
 
 ### FAQ
 
-1. Qn 
+1. What will happen when you run the script multiple time? 
 
-   Ans: sds
+   Ans: If the videos specified in `videos_to_be_processed` dictionary is already made into frames, then those videos will not  be again split. The train-validation-test set will be resampled for each run. 
 
 
-2. Qn 
+2. Suppose I need to have training and validation data from 'bookstore' scene and testing from 'deathCircle' scene, how would `videos_to_be_processed` dictionary look like?
 
-   Ans: sds
+   Ans: 
+   ```Python
+videos_to_be_processed = {'bookstore': {0: (.5, .5, 0)},
+                              'coupa': {2: (0, 0, 1)}}
+   ```
