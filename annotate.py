@@ -202,8 +202,8 @@ if __name__ == '__main__':
     #
     # videos_to_be_processed = {'bookstore': {0: (.6, .2, .2), 5: (.6, .2, .2)}}
 
-    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3)},
-                              'coupa': {},
+    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
+                              'coupa': {0: (.5, .2, .3)},
                               'deathCircle': {},
                               'gates': {},
                               'hyang': {},
