@@ -12,15 +12,32 @@ def count_files(path, filename_starts_with=''):
     return len(files)
 
 
+def touch(fname, times=None):
+    with open(fname, 'a'):
+        os.utime(fname, times)
+
+
 def init_directories():
+    # Setup the directory structure.
     if not os.path.exists(destination_path):
         os.makedirs(os.path.join(destination_path, 'JPEGImages'))
         os.makedirs(os.path.join(destination_path, 'ImageSets', 'Main'))
         os.makedirs(os.path.join(destination_path, 'Annotations'))
 
+    # Flush the train-val-test split. A new split will be created each time this script is run.
+    for f in os.listdir(os.path.join(destination_path, 'ImageSets', 'Main')):
+        os.remove(f)
+
+    # Creating empty files.
+    touch(os.path.join(destination_path, 'ImageSets', 'Main', 'train.txt'))
+    touch(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'))
+    touch(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'))
+    touch(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'))
+
 
 def split_video(video_file, image_name_prefix):
     return subprocess.check_output('ffmpeg -i ' + os.path.abspath(video_file) + ' '+ image_name_prefix +'%d.jpg', shell=True, cwd=os.path.join(destination_path, 'JPEGImages'))
+
 
 def log(message, level='info'):
     print '<'+level+'>\t' + message
@@ -51,8 +68,6 @@ def split_and_annotate():
                     log('Splitting ' + video_file + ' complete.')
                 else:
                     log(video_file + ' is already split into frames. Skipping...')
-
-
 
 
 if __name__ == '__main__':
