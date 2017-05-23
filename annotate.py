@@ -88,7 +88,7 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
             cPickle.dump(sdd_annotation, fid)
 
     # Create VOC style annotation.
-    first_image_path = os.path.join(destination_path, 'JPEGImages', filename_prefix, '1.jpg')
+    first_image_path = os.path.join(destination_path, 'JPEGImages', filename_prefix+'1.jpg')
     assert_path(first_image_path, 'Cannot find the images. Trying to access: ' + first_image_path)
     first_image = cv2.imread(first_image_path)
     height, width, depth = first_image.shape
