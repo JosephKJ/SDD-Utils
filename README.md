@@ -11,15 +11,18 @@ The utility basically does three tasks in the following sequence:
 
 This will come handy when we want to test existing Object Detection algorithms on Stanford Drone Dataset. This will enable us to train a network with minimal code change as most of the Object Detection algorithms do ship code to train on Pascal VOC. 
 
+
 ### Prerequisites
 * ffmpeg library
 * python 2.7
+
 
 ### Usage
 ```Python
 python annotate.py 
 ```
 The script assumes that the Stanford Drone Datased is unzipped in the cwd of the script inside a folder named `StanfordDroneDataset`. A soft link will also work. The name of the folder is configurable in the script. 
+
 
 ### Declarative definition
 The videos to be processed and the train-validation-test split can be defined declaratively in the script. 
