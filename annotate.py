@@ -26,7 +26,7 @@ def init_directories():
 
     # Flush the train-val-test split. A new split will be created each time this script is run.
     for f in os.listdir(os.path.join(destination_path, 'ImageSets', 'Main')):
-        os.remove(f)
+        os.remove(os.path.join(destination_path, 'ImageSets', 'Main', f))
 
     # Creating empty files.
     touch(os.path.join(destination_path, 'ImageSets', 'Main', 'train.txt'))
@@ -41,6 +41,16 @@ def split_video(video_file, image_name_prefix):
 
 def log(message, level='info'):
     print '<'+level+'>\t' + message
+
+
+def split_dataset(number_of_frames, split_ratio):
+    assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
+
+    train, val, test = split_ratio * number_of_frames
+    print train
+    print val
+    print test
+
 
 
 def split_and_annotate():
@@ -68,6 +78,11 @@ def split_and_annotate():
                     log('Splitting ' + video_file + ' complete.')
                 else:
                     log(video_file + ' is already split into frames. Skipping...')
+
+                # Create train-val-test split
+                number_of_frames = count_files(jpeg_image_path, image_name_prefix)
+                split_ratio = videos.get(video_index)
+                split_dataset(number_of_frames, split_ratio)
 
 
 if __name__ == '__main__':
