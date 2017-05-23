@@ -46,7 +46,11 @@ def split_video(video_file, image_name_prefix):
 
 
 def log(message, level='info'):
-    print '<'+level+'>\t' + message
+    formatters = {
+        'GREEN': '\033[92m',
+        'END': '\033[0m',
+    }
+    print ('{GREEN}<'+level+'>{END}\t' + message).format(**formatters)
 
 
 def write_to_file(filename, content):
