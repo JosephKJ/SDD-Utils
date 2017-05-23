@@ -45,15 +45,30 @@ def log(message, level='info'):
     print '<'+level+'>\t' + message
 
 
-def split_dataset(number_of_frames, split_ratio):
+def write_to_file(filename, content):
+    f = open(filename, 'a')
+    f.write(content+'\n')
+
+
+def split_dataset(number_of_frames, split_ratio, file_name_prefix):
     assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
+
     train, val, test = np.array(split_ratio) * number_of_frames
 
     test_images = random.sample(range(1, number_of_frames+1), int(test))
     val_images = random.sample(tuple(set(range(1, number_of_frames+1)) - set(test_images)), int(val))
-    train_images = list(set(range(1, number_of_frames+1)) - set(test_images) - set(val_images))
+    train_images = random.sample(tuple(set(range(1, number_of_frames+1)) - set(test_images) - set(val_images)), int(train))
 
+    for index in train_images:
+        write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'train.txt'), file_name_prefix+str(index))
+        write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'), file_name_prefix+str(index))
 
+    for index in val_images:
+        write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'), file_name_prefix+str(index))
+        write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'), file_name_prefix+str(index))
+
+    for index in test_images:
+        write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'), file_name_prefix+str(index))
 
 
 
@@ -86,7 +101,7 @@ def split_and_annotate():
                 # Create train-val-test split
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
                 split_ratio = videos.get(video_index)
-                split_dataset(number_of_frames, split_ratio)
+                split_dataset(number_of_frames, split_ratio, image_name_prefix)
 
 
 if __name__ == '__main__':
@@ -117,7 +132,7 @@ if __name__ == '__main__':
     #
     # videos_to_be_processed = {'bookstore': {0: (.6, .2, .2), 5: (.6, .2, .2)}}
 
-    videos_to_be_processed = {'bookstore': {0: (.6, .2, .2)},
+    videos_to_be_processed = {'bookstore': {0: (.1, .0, .1)},
                               'coupa': {},
                               'deathCircle': {},
                               'gates': {},
