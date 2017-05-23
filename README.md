@@ -67,3 +67,15 @@ Annotations  ImageSets  JPEGImages  pickle_store
 videos_to_be_processed = {'bookstore': {0: (.5, .5, 0), 1: (.5, .5, 0)},
                         'deathCircle': {2: (0, 0, 1)}}
    ```
+3. How many scenes are there in Stanford Drone Dataset? How many videos are there in each?
+
+   Ans: 
+       SDD contains the following 'scenes' and corresponding videos:
+    'bookstore'   scene contains videos: (0, 1, 2, 3, 4, 5, 6)
+    'coupa'       scene contains videos: (0, 1, 2, 3)
+    'deathCircle' scene contains videos: (0, 1, 2, 3, 4)
+    'gates'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8)
+    'hyang'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+    'little'      scene contains videos: (0, 1, 2, 3)
+    'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+    'quad'        scene contains videos: (0, 1, 2, 3)
