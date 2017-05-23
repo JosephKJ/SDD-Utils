@@ -179,7 +179,7 @@ if __name__ == '__main__':
     # --------------------------------------------------------
     # videos_to_be_processed is a dictionary.
     # Keys in this dictionary should match the 'scenes' in Stanford Drone Dataset.
-    # Value for each key is a dictionary.
+    # Value for each key is also a dictionary.
     #   - The number of items in the dictionary, can atmost be the number of videos each 'scene'
     #   - Each item in the dictionary is of the form {video_number:fraction_of_images_to_be_split_into_train_val_test_set}
     #   - eg: {2:(.7, .2, .1)} means 0.7 fraction of the images from Video2, should be put into training set,
@@ -187,26 +187,6 @@ if __name__ == '__main__':
     #                                0.1 fraction to test set.
     #                                Also, training and validation images are merged into trainVal set.
     # --------------------------------------------------------
-    #
-    # --------------------------------------------------------
-    # SDD contains the following 'scenes' and corresponding videos:
-    # 'bookstore'   scene contains videos: (0, 1, 2, 3, 4, 5, 6)
-    # 'coupa'       scene contains videos: (0, 1, 2, 3)
-    # 'deathCircle' scene contains videos: (0, 1, 2, 3, 4)
-    # 'gates'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8)
-    # 'hyang'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
-    # 'little'      scene contains videos: (0, 1, 2, 3)
-    # 'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
-    # 'quad'        scene contains videos: (0, 1, 2, 3)
-    # --------------------------------------------------------
-    #    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
-    #                           'coupa': {0: (.5, .2, .3)},
-    #                           'deathCircle': {},
-    #                           'gates': {},
-    #                           'hyang': {},
-    #                           'little': {},
-    #                           'nexus': {},
-    #                           'quad': {}}
 
     videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
                               'coupa': {0: (.5, .2, .3)}}
