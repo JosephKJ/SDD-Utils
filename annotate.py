@@ -1,5 +1,6 @@
 import os
 import subprocess
+import numpy as np
 
 
 def assert_path(path, error_message):
@@ -45,7 +46,7 @@ def log(message, level='info'):
 
 def split_dataset(number_of_frames, split_ratio):
     assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
-    split = split_ratio * number_of_frames
+    split = np.array(split_ratio) * number_of_frames
     print split
     train, val, test = split
     print train
