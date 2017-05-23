@@ -50,3 +50,9 @@ Output Folder Structure:
 cs17mtech01001@ubuntu:/media/sdj/Open_Datasets/StanfordDroneDataset/sdd$ ls
 Annotations  ImageSets  JPEGImages  pickle_store
 ```
+
+
+### FAQ
+
+1. Qn 
+Ans: sds
