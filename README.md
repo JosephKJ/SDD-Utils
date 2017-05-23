@@ -78,3 +78,5 @@ SDD contains the following 'scenes' and corresponding videos:
     'nexus'       scene contains videos: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
     'quad'        scene contains videos: (0, 1, 2, 3)
 ```
+### Citation
+A. Robicquet, A. Sadeghian, A. Alahi, S. Savarese, Learning Social Etiquette: Human Trajectory Prediction In Crowded Scenes in European Conference on Computer Vision (ECCV), 2016.
