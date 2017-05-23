@@ -25,8 +25,14 @@ The videos to be processed and the train-validation-test split can be defined de
 
 The `videos_to_be_processed` dictionary decides which videos should be processed and what would be its contribution towards train-validation-test set.
 
-Key point:
+Key points:
 * Keys in this dictionary should match the 'scenes' in Stanford Drone Dataset. Value for each key is also a dictionary.
 * The number of items in the dictionary, can atmost be the number of videos each 'scene'
 * Each item in the dictionary is of the form {video_number:fraction_of_images_to_be_split_into_train_val_test_set}
-* eg: {2:(.7, .2, .1)} means 0.7 fraction of the images from Video2, should be put into training set, 0.2 fraction to validation set and 0.1 fraction to test set. Also, training and validation images are merged into trainVal set.
+
+Example
+`
+    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
+                              'coupa': {0: (.5, .2, .3)}}
+`
+Here, the first two videos from bookstore scene from Stanford Drone Dataset will be used, with a train-validation-test split of `(.5, .2, .3)` and `(.2, .1, .1)` respectively.
