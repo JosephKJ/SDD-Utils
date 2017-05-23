@@ -1,6 +1,7 @@
 import os
 import subprocess
 import numpy as np
+import random
 
 
 def assert_path(path, error_message):
@@ -47,9 +48,10 @@ def log(message, level='info'):
 def split_dataset(number_of_frames, split_ratio):
     assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
     train, val, test = np.array(split_ratio) * number_of_frames
-    print train
-    print val
-    print test
+
+    test_images = random.sample(range(1, number_of_frames), test)
+    print test_images
+    print type(test_images)
 
 
 
