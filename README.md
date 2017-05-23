@@ -47,6 +47,6 @@ The Pascal VOC style annotations will be created in the location specified at `d
 
 Sample Folder Structure:
 ```Shell
-cs17mtech01001@ubuntu:/media/sdj/Open_Datasets/StanfordDroneDataset/unzipped/sdd$ ls
+cs17mtech01001@ubuntu:/media/sdj/Open_Datasets/StanfordDroneDataset/sdd$ ls
 Annotations  ImageSets  JPEGImages  pickle_store
 ```
