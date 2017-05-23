@@ -19,6 +19,7 @@ This will come handy when we want to test existing Object Detection algorithms o
 `
 python annotate.py 
 `
+The script assumes that the Stanford Drone Datased is unzipped in the cwd of the script inside a folder named `StanfordDroneDataset`. A soft link will also work. The name of the folder is configurable in the script. 
 
 ### Declarative definition
 The videos to be processed and the train-validation-test split can be defined declaratively in the script. 
@@ -32,7 +33,9 @@ Key points:
 
 Example
 ```Python
-    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
+videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
                               'coupa': {0: (.5, .2, .3)}}
 ```
-Here, the first two videos from bookstore scene from Stanford Drone Dataset will be used, with a train-validation-test split of `(.5, .2, .3)` and `(.2, .1, .1)` respectively.
+Here, the first two videos from bookstore scene from Stanford Drone Dataset will be split into frames, with a train-validation-test split of `(.5, .2, .3)` and `(.2, .1, .1)` respectively. Then the first video from coupa scene will be similarly processed.
+
+
