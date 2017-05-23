@@ -54,7 +54,7 @@ Annotations  ImageSets  JPEGImages  pickle_store
 
 ### FAQ
 
-1. What will happen when you run the script multiple time? 
+1. What will happen when I run the script multiple time? 
 
    Ans: If the videos specified in `videos_to_be_processed` dictionary is already made into frames, then those videos will not  be again split. The train-validation-test set will be resampled for each run. 
 
