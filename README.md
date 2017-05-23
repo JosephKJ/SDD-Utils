@@ -45,7 +45,7 @@ Here, the first two videos from bookstore scene from Stanford Drone Dataset will
 ### Output
 The Pascal VOC style annotations will be created in the location specified at `destination_folder_name` variable in the script. By default, it creates a folder named `sdd` inside the dataset folder. 
 
-Sample Folder Structure:
+Output Folder Structure:
 ```Shell
 cs17mtech01001@ubuntu:/media/sdj/Open_Datasets/StanfordDroneDataset/sdd$ ls
 Annotations  ImageSets  JPEGImages  pickle_store
