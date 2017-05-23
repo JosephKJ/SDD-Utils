@@ -56,4 +56,9 @@ Annotations  ImageSets  JPEGImages  pickle_store
 
 1. Qn 
 
-   Ans: sds
+Ans: sds
+
+
+2. Qn 
+
+Ans: sds
