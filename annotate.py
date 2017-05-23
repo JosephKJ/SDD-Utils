@@ -148,16 +148,16 @@ def split_and_annotate():
                     split_video(video_file, image_name_prefix)
                     log('Splitting ' + video_file + ' complete.')
 
-                    #Annotate
-                    # log('Annotating frames from '+ video_file)
-                    # sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
-                    #                                    'video', str(video_index), 'annotations.txt')
-                    # assert_path(sdd_annotation_file, 'Annotation file not found. '
-                    #                                  'Trying to access ' + sdd_annotation_file)
-                    # dest_path = os.path.join(destination_path, 'Annotations')
-                    # number_of_frames = count_files(jpeg_image_path, image_name_prefix)
-                    # annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
-                    # log('Annotation Complete.')
+                    # Annotate
+                    log('Annotating frames from ' + video_file)
+                    sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
+                                                       'video' + str(video_index), 'annotations.txt')
+                    assert_path(sdd_annotation_file, 'Annotation file not found. '
+                                                     'Trying to access ' + sdd_annotation_file)
+                    dest_path = os.path.join(destination_path, 'Annotations')
+                    number_of_frames = count_files(jpeg_image_path, image_name_prefix)
+                    annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
+                    log('Annotation Complete.')
 
                 else:
                     log(video_file + ' is already split into frames. Skipping...')
@@ -167,17 +167,6 @@ def split_and_annotate():
                 split_ratio = videos.get(video_index)
                 split_dataset(number_of_frames, split_ratio, image_name_prefix)
                 log('Successfully created new train-val-test split.')
-
-                # Annotate
-                log('Annotating frames from ' + video_file)
-                sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
-                                                   'video' + str(video_index), 'annotations.txt')
-                assert_path(sdd_annotation_file, 'Annotation file not found. '
-                                                 'Trying to access ' + sdd_annotation_file)
-                dest_path = os.path.join(destination_path, 'Annotations')
-                number_of_frames = count_files(jpeg_image_path, image_name_prefix)
-                annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
-                log('Annotation Complete.')
 
 
 if __name__ == '__main__':
@@ -222,5 +211,3 @@ if __name__ == '__main__':
     destination_path = os.path.join(dataset_path, destination_folder_name)
 
     split_and_annotate()
-    # 13335
-    # annotate_frames('./StanfordDroneDataset/annotations/bookstore/video0/annotations.txt', './StanfordDroneDataset/sdd/Annotations', 'bookstore_video0_', 3)
