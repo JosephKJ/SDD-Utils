@@ -16,9 +16,9 @@ This will come handy when we want to test existing Object Detection algorithms o
 * python 2.7
 
 ### Usage
-`
+```Python
 python annotate.py 
-`
+```
 The script assumes that the Stanford Drone Datased is unzipped in the cwd of the script inside a folder named `StanfordDroneDataset`. A soft link will also work. The name of the folder is configurable in the script. 
 
 ### Declarative definition
