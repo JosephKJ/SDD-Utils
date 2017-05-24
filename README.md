@@ -81,4 +81,4 @@ SDD contains the following 'scenes' and corresponding videos:
 ### Citation
 A. Robicquet, A. Sadeghian, A. Alahi, S. Savarese, Learning Social Etiquette: Human Trajectory Prediction In Crowded Scenes in European Conference on Computer Vision (ECCV), 2016.
 
-Dataset available [here](http://cvgl.stanford.edu/projects/uav_data/).
+Dataset is available [here](http://cvgl.stanford.edu/projects/uav_data/).
