@@ -25,7 +25,7 @@ The script assumes that the Stanford Drone Datased is unzipped in the cwd of the
 
 
 ### Declarative definition
-The videos to be processed and the train-validation-test split can be defined declaratively in the script. 
+The videos to be processed and the number of images in train-validation-test split can be defined declaratively in the script. 
 
 The `videos_to_be_processed` dictionary decides which videos should be processed and what would be its contribution towards train-validation-test set.
 
