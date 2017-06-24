@@ -188,8 +188,14 @@ if __name__ == '__main__':
     #                                Also, training and validation images are merged into trainVal set.
     # --------------------------------------------------------
 
-    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3), 1: (.2, .1, .1)},
-                              'coupa': {0: (.5, .2, .3)}}
+    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3)},
+                              'coupa': {0: (.5, .2, .3)},
+                              'deathCircle': {0: (.5, .2, .3)},
+                              'gates': {0: (.5, .2, .3)},
+                              'hyang': {0: (.5, .2, .3)},
+                              'little': {0: (.5, .2, .3)},
+                              'nexus': {0: (.5, .2, .3)},
+                              'quad': {0: (.5, .2, .3)}}
 
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd'
