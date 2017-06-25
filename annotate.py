@@ -4,6 +4,7 @@ import numpy as np
 import random
 import cPickle
 import cv2
+import math
 import xml.etree.cElementTree as ET
 
 
@@ -127,9 +128,57 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
         xml_annotation.write(os.path.join(dest_path, filename_prefix + str(frame_number) + ".xml"))
 
 
-def split_and_annotate():
+def calculate_share(num_training_images, num_val_images, num_testing_images):
+    # Returns how many frame should be each videos in train/val/test sets.
+    train_videos = 0
+    val_videos = 0
+    test_videos = 0
+    for scene in videos_to_be_processed:
+        path = os.path.join(dataset_path, 'videos', scene)
+        assert_path(path, path + ' not found.')
+
+        videos = videos_to_be_processed.get(scene)
+        if len(videos) > 0:
+            for video_index in videos.keys():
+                split_ratio = videos.get(video_index)
+                if split_ratio[0] == 1:
+                    train_videos += 1
+                elif split_ratio[1] == 1:
+                    val_videos += 1
+                elif split_ratio[2] == 1:
+                    test_videos += 1
+
+    return (num_training_images/train_videos, num_val_images/val_videos, num_testing_images/test_videos)
+
+
+def split_dataset_uniformly(number_of_frames, split_ratio, share, file_name_prefix):
+    index_of_one = split_ratio.index(1)
+    share_of_this_video = share[index_of_one]
+    skip_by = int(math.ceil(float(number_of_frames)/share_of_this_video))
+    image_index = [i for i in range(1, number_of_frames+1, skip_by)]
+
+    for index in image_index:
+        if index_of_one == 0:
+            # Training
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'train.txt'),
+                          file_name_prefix + str(index))
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'),
+                          file_name_prefix + str(index))
+        elif index_of_one == 1:
+            # Validation
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'), file_name_prefix + str(index))
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'),
+                          file_name_prefix + str(index))
+        elif index_of_one == 2:
+            # Testing
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'), file_name_prefix + str(index))
+
+
+def split_and_annotate(num_training_images=None, num_val_images=None, num_testing_images=None):
     assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
     init_directories()
+    if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
+        share = calculate_share(num_training_images, num_val_images, num_testing_images)
     for scene in videos_to_be_processed:
         path = os.path.join(dataset_path, 'videos', scene)
         assert_path(path, path + ' not found.')
@@ -168,8 +217,11 @@ def split_and_annotate():
 
                 # Create train-val-test split
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
-                split_ratio = videos.get(video_index)
-                split_dataset(number_of_frames, split_ratio, image_name_prefix)
+                if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
+                    split_dataset_uniformly(number_of_frames, split_ratio, share, image_name_prefix)
+                else:
+                    split_ratio = videos.get(video_index)
+                    split_dataset(number_of_frames, split_ratio, image_name_prefix)
                 log('Successfully created train-val-test split.')
     log('Done.')
 
@@ -197,7 +249,7 @@ if __name__ == '__main__':
     #                           'nexus': {0: (.5, .2, .3)},
     #                           'quad': {0: (.5, .2, .3)}}
 
-    # Uniform Sub Sampling
+    # Uniform Sub Sampling : Split should contain only 0 / 1
     videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
                               'coupa': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
                               'deathCircle': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
@@ -207,8 +259,13 @@ if __name__ == '__main__':
                               'nexus': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
                               'quad': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)}}
 
+    num_training_images = 40000
+    num_val_images = 10000
+    num_testing_images = 20000
+
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd'
     destination_path = os.path.join(dataset_path, destination_folder_name)
 
-    split_and_annotate()
+    # split_and_annotate()
+    split_and_annotate(num_training_images, num_val_images, num_testing_images)
