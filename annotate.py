@@ -188,14 +188,24 @@ if __name__ == '__main__':
     #                                Also, training and validation images are merged into trainVal set.
     # --------------------------------------------------------
 
-    videos_to_be_processed = {'bookstore': {0: (.5, .2, .3)},
-                              'coupa': {0: (.5, .2, .3)},
-                              'deathCircle': {0: (.5, .2, .3)},
-                              'gates': {0: (.5, .2, .3)},
-                              'hyang': {0: (.5, .2, .3)},
-                              'little': {0: (.5, .2, .3)},
-                              'nexus': {0: (.5, .2, .3)},
-                              'quad': {0: (.5, .2, .3)}}
+    # videos_to_be_processed = {'bookstore': {0: (.5, .2, .3)},
+    #                           'coupa': {0: (.5, .2, .3)},
+    #                           'deathCircle': {0: (.5, .2, .3)},
+    #                           'gates': {0: (.5, .2, .3)},
+    #                           'hyang': {0: (.5, .2, .3)},
+    #                           'little': {0: (.5, .2, .3)},
+    #                           'nexus': {0: (.5, .2, .3)},
+    #                           'quad': {0: (.5, .2, .3)}}
+
+    # Uniform Sub Sampling
+    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'coupa': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'deathCircle': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'gates': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'hyang': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'little': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'nexus': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
+                              'quad': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)}}
 
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd'
