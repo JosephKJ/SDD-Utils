@@ -166,12 +166,14 @@ def split_dataset_uniformly(number_of_frames, split_ratio, share, file_name_pref
                           file_name_prefix + str(index))
         elif index_of_one == 1:
             # Validation
-            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'), file_name_prefix + str(index))
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'),
+                          file_name_prefix + str(index))
             write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'),
                           file_name_prefix + str(index))
         elif index_of_one == 2:
             # Testing
-            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'), file_name_prefix + str(index))
+            write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'),
+                          file_name_prefix + str(index))
 
 
 def split_and_annotate(num_training_images=None, num_val_images=None, num_testing_images=None):
