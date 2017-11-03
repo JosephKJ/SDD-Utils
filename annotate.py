@@ -303,4 +303,4 @@ if __name__ == '__main__':
 
     # split_and_annotate()
     split_and_annotate(num_training_images, num_val_images, num_testing_images)
-    write_to_file(os.path.join(destination_path, 'index.log'), videos_to_be_processed)
+    open(os.path.join(destination_path, 'index.log'), 'a').write(videos_to_be_processed)
