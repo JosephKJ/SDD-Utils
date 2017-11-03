@@ -291,7 +291,7 @@ if __name__ == '__main__':
 
     # Train/Val : 1, 4, 5, 3
     # Test: 2, 6
-    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 0, 1), 3: (1, 0, 0), 4: (1, 0, 0), 5: (0, 1, 0), 6: (0, 0, 1)}}
+    videos_to_be_processed = {'bookstore': {0: (1, 0, 0), 1: (1, 0, 0), 2: (0, 0, 1), 3: (1, 0, 0), 4: (1, 0, 0), 5: (0, 1, 0), 6: (0, 0, 1)}}
 
     num_training_images = 40000
     num_val_images = 10000
@@ -303,3 +303,4 @@ if __name__ == '__main__':
 
     # split_and_annotate()
     split_and_annotate(num_training_images, num_val_images, num_testing_images)
+    write_to_file(os.path.join(destination_path, 'index.log'), videos_to_be_processed)
