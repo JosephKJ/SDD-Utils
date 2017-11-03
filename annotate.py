@@ -113,16 +113,17 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
         annotations_in_frame = sdd_annotation[sdd_annotation[:, 5] == str(frame_number)]
 
         for annotation_data in annotations_in_frame:
-            object = ET.SubElement(annotation, "object")
-            ET.SubElement(object, "name").text = annotation_data[9].replace('"','')
-            ET.SubElement(object, "pose").text = 'Unspecified'
-            ET.SubElement(object, "truncated").text = annotation_data[7] # occluded
-            ET.SubElement(object, "difficult").text = '0'
-            bndbox = ET.SubElement(object, "bndbox")
-            ET.SubElement(bndbox, "xmin").text = annotation_data[1]
-            ET.SubElement(bndbox, "ymin").text = annotation_data[2]
-            ET.SubElement(bndbox, "xmax").text = annotation_data[3]
-            ET.SubElement(bndbox, "ymax").text = annotation_data[4]
+            if int(annotation_data[6]) == 0 and int(annotation_data[7]) == 0 and int(annotation_data[8]) == 0:
+                object = ET.SubElement(annotation, "object")
+                ET.SubElement(object, "name").text = annotation_data[9].replace('"','')
+                ET.SubElement(object, "pose").text = 'Unspecified'
+                ET.SubElement(object, "truncated").text = annotation_data[7] # occluded
+                ET.SubElement(object, "difficult").text = '0'
+                bndbox = ET.SubElement(object, "bndbox")
+                ET.SubElement(bndbox, "xmin").text = annotation_data[1]
+                ET.SubElement(bndbox, "ymin").text = annotation_data[2]
+                ET.SubElement(bndbox, "xmax").text = annotation_data[3]
+                ET.SubElement(bndbox, "ymax").text = annotation_data[4]
 
         xml_annotation = ET.ElementTree(annotation)
         xml_annotation.write(os.path.join(dest_path, filename_prefix + str(frame_number) + ".xml"))
