@@ -112,8 +112,10 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
 
         annotations_in_frame = sdd_annotation[sdd_annotation[:, 5] == str(frame_number)]
 
+        has_an_annotation = False
         for annotation_data in annotations_in_frame:
             if int(annotation_data[6]) == 0 and int(annotation_data[7]) == 0 and int(annotation_data[8]) == 0:
+                has_an_annotation = True
                 object = ET.SubElement(annotation, "object")
                 ET.SubElement(object, "name").text = annotation_data[9].replace('"','')
                 ET.SubElement(object, "pose").text = 'Unspecified'
@@ -126,7 +128,8 @@ def annotate_frames(sdd_annotation_file, dest_path, filename_prefix, number_of_f
                 ET.SubElement(bndbox, "ymax").text = annotation_data[4]
 
         xml_annotation = ET.ElementTree(annotation)
-        xml_annotation.write(os.path.join(dest_path, filename_prefix + str(frame_number) + ".xml"))
+        if has_an_annotation:
+            xml_annotation.write(os.path.join(dest_path, filename_prefix + str(frame_number) + ".xml"))
 
 
 def calculate_share(num_training_images, num_val_images, num_testing_images):
@@ -198,25 +201,25 @@ def split_and_annotate(num_training_images=None, num_val_images=None, num_testin
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
                 image_name_prefix = scene + '_video' + str(video_index) + '_'
                 video_file = os.path.join(video_path, 'video.mov')
-                # if count_files(jpeg_image_path, image_name_prefix) == 0:
-                #     # Split Video
-                #     log('Splitting ' + video_file)
-                #     split_video(video_file, image_name_prefix)
-                #     log('Splitting ' + video_file + ' complete.')
+                if count_files(jpeg_image_path, image_name_prefix) == 0:
+                    # Split Video
+                    log('Splitting ' + video_file)
+                    split_video(video_file, image_name_prefix)
+                    log('Splitting ' + video_file + ' complete.')
 
-                # Annotate
-                log('Annotating frames from ' + video_file)
-                sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
-                                                   'video' + str(video_index), 'annotations.txt')
-                assert_path(sdd_annotation_file, 'Annotation file not found. '
-                                                 'Trying to access ' + sdd_annotation_file)
-                dest_path = os.path.join(destination_path, 'Annotations')
-                number_of_frames = count_files(jpeg_image_path, image_name_prefix)
-                annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
-                log('Annotation Complete.')
+                    # Annotate
+                    log('Annotating frames from ' + video_file)
+                    sdd_annotation_file = os.path.join(dataset_path, 'annotations', scene,
+                                                       'video' + str(video_index), 'annotations.txt')
+                    assert_path(sdd_annotation_file, 'Annotation file not found. '
+                                                     'Trying to access ' + sdd_annotation_file)
+                    dest_path = os.path.join(destination_path, 'Annotations')
+                    number_of_frames = count_files(jpeg_image_path, image_name_prefix)
+                    annotate_frames(sdd_annotation_file, dest_path, image_name_prefix, number_of_frames)
+                    log('Annotation Complete.')
 
-                # else:
-                #     log(video_file + ' is already split into frames. Skipping...')
+                else:
+                    log(video_file + ' is already split into frames. Skipping...')
 
                 # Create train-val-test split
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
@@ -267,7 +270,6 @@ if __name__ == '__main__':
     num_training_images = 40000
     num_val_images = 10000
     num_testing_images = 20000
-
 
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd_train_test_bookstore'
