@@ -268,6 +268,7 @@ if __name__ == '__main__':
     num_val_images = 10000
     num_testing_images = 20000
 
+
     dataset_path = './StanfordDroneDataset'
     destination_folder_name = 'sdd_train_test_bookstore'
     destination_path = os.path.join(dataset_path, destination_folder_name)
