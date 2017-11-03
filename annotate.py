@@ -61,7 +61,6 @@ def write_to_file(filename, content):
 
 # Based on the split ratio and the number of annotated images, directly create the split.
 def simple_split(split_ratio, file_name_prefix, path):
-    print split_ratio, file_name_prefix
     index_of_one = split_ratio.index(1)
     for f in os.listdir(path):
         if os.path.isfile(os.path.join(path, f)) and f.startswith(file_name_prefix):
