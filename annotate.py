@@ -59,6 +59,11 @@ def write_to_file(filename, content):
     f.write(content+'\n')
 
 
+# Based on the split ratio and the number of annotated images, directly create the split.
+def simple_split(split_ratio):
+    print split_ratio
+
+
 def split_dataset(number_of_frames, split_ratio, file_name_prefix):
     assert sum(split_ratio) <= 1, 'Split ratio cannot be more than 1.'
 
@@ -201,12 +206,11 @@ def split_and_annotate(num_training_images=None, num_val_images=None, num_testin
                 jpeg_image_path = os.path.join(destination_path, 'JPEGImages')
                 image_name_prefix = scene + '_video' + str(video_index) + '_'
                 video_file = os.path.join(video_path, 'video.mov')
-                # if count_files(jpeg_image_path, image_name_prefix) == 0:
-                if True:
-                    # # Split Video
-                    # log('Splitting ' + video_file)
-                    # split_video(video_file, image_name_prefix)
-                    # log('Splitting ' + video_file + ' complete.')
+                if count_files(jpeg_image_path, image_name_prefix) == 0:
+                    # Split Video
+                    log('Splitting ' + video_file)
+                    split_video(video_file, image_name_prefix)
+                    log('Splitting ' + video_file + ' complete.')
 
                     # Annotate
                     log('Annotating frames from ' + video_file)
@@ -226,7 +230,8 @@ def split_and_annotate(num_training_images=None, num_val_images=None, num_testin
                 number_of_frames = count_files(jpeg_image_path, image_name_prefix)
                 split_ratio = videos.get(video_index)
                 if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
-                    split_dataset_uniformly(number_of_frames, split_ratio, share, image_name_prefix)
+                    # split_dataset_uniformly(number_of_frames, split_ratio, share, image_name_prefix)
+                    simple_split(split_ratio)
                 else:
                     split_dataset(number_of_frames, split_ratio, image_name_prefix)
                 log('Successfully created train-val-test split.')
@@ -266,7 +271,9 @@ if __name__ == '__main__':
     #                           'nexus': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
     #                           'quad': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)}}
 
-    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1), 4: (1, 0, 0), 5: (1, 0, 0), 6: (0, 0, 1)}}
+    # Train/Val : 1, 4, 5, 6
+    # Test: 2, 3
+    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 0, 1), 3: (0, 0, 1), 4: (1, 0, 0), 5: (1, 0, 0), 6: (1, 0, 0)}}
 
     num_training_images = 40000
     num_val_images = 10000
