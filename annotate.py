@@ -60,8 +60,27 @@ def write_to_file(filename, content):
 
 
 # Based on the split ratio and the number of annotated images, directly create the split.
-def simple_split(split_ratio):
-    print split_ratio
+def simple_split(split_ratio, file_name_prefix, path):
+    print split_ratio, file_name_prefix
+    index_of_one = split_ratio.index(1)
+    for f in os.listdir(path):
+        if os.path.isfile(os.path.join(path, f)) and f.startswith(file_name_prefix):
+            if index_of_one == 0:
+                # Training
+                write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'train.txt'),
+                              f.split('.')[0])
+                write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'),
+                              f.split('.')[0])
+            elif index_of_one == 1:
+                # Validation
+                write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'val.txt'),
+                              f.split('.')[0])
+                write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'),
+                              f.split('.')[0])
+            elif index_of_one == 2:
+                # Testing
+                write_to_file(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'),
+                              f.split('.')[0])
 
 
 def split_dataset(number_of_frames, split_ratio, file_name_prefix):
@@ -188,8 +207,8 @@ def split_dataset_uniformly(number_of_frames, split_ratio, share, file_name_pref
 def split_and_annotate(num_training_images=None, num_val_images=None, num_testing_images=None):
     assert_path(dataset_path, ''.join(e for e in dataset_path if e.isalnum()) + ' folder should be found in the cwd of this script.')
     init_directories()
-    if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
-        share = calculate_share(num_training_images, num_val_images, num_testing_images)
+    # if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
+    #     share = calculate_share(num_training_images, num_val_images, num_testing_images)
     for scene in videos_to_be_processed:
         path = os.path.join(dataset_path, 'videos', scene)
         assert_path(path, path + ' not found.')
@@ -231,7 +250,7 @@ def split_and_annotate(num_training_images=None, num_val_images=None, num_testin
                 split_ratio = videos.get(video_index)
                 if num_training_images is not None and num_val_images is not None and num_testing_images is not None:
                     # split_dataset_uniformly(number_of_frames, split_ratio, share, image_name_prefix)
-                    simple_split(split_ratio)
+                    simple_split(split_ratio, image_name_prefix, os.path.join(destination_path, 'Annotations'))
                 else:
                     split_dataset(number_of_frames, split_ratio, image_name_prefix)
                 log('Successfully created train-val-test split.')
@@ -271,9 +290,9 @@ if __name__ == '__main__':
     #                           'nexus': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)},
     #                           'quad': {0: (1, 0, 0), 2: (0, 1, 0), 3: (0, 0, 1)}}
 
-    # Train/Val : 1, 4, 5, 6
-    # Test: 2, 3
-    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 0, 1), 3: (0, 0, 1), 4: (1, 0, 0), 5: (1, 0, 0), 6: (1, 0, 0)}}
+    # Train/Val : 1, 4, 5, 3
+    # Test: 2, 6
+    videos_to_be_processed = {'bookstore': {1: (1, 0, 0), 2: (0, 0, 1), 3: (1, 0, 0), 4: (1, 0, 0), 5: (0, 1, 0), 6: (0, 0, 1)}}
 
     num_training_images = 40000
     num_val_images = 10000
