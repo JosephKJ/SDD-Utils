@@ -41,6 +41,9 @@ def init_directories():
     touch(os.path.join(destination_path, 'ImageSets', 'Main', 'test.txt'))
     touch(os.path.join(destination_path, 'ImageSets', 'Main', 'trainval.txt'))
 
+    # Remove the index file
+    os.remove(os.path.join(destination_path, 'index.log'))
+
 
 def split_video(video_file, image_name_prefix):
     return subprocess.check_output('ffmpeg -i ' + os.path.abspath(video_file) + ' '+ image_name_prefix +'%d.jpg', shell=True, cwd=os.path.join(destination_path, 'JPEGImages'))
@@ -62,6 +65,7 @@ def write_to_file(filename, content):
 # Based on the split ratio and the number of annotated images, directly create the split.
 def simple_split(split_ratio, file_name_prefix, path):
     index_of_one = split_ratio.index(1)
+    write_to_file(os.path.join(destination_path, 'index.log'), file_name_prefix + '* contains ' + str(count_files(path, file_name_prefix)) + ' annotated images.')
     for f in os.listdir(path):
         if os.path.isfile(os.path.join(path, f)) and f.startswith(file_name_prefix):
             if index_of_one == 0:
@@ -303,4 +307,4 @@ if __name__ == '__main__':
 
     # split_and_annotate()
     split_and_annotate(num_training_images, num_val_images, num_testing_images)
-    write_to_file(os.path.join(destination_path, 'index.log'), videos_to_be_processed)
+    write_to_file(os.path.join(destination_path, 'index.log'), str(videos_to_be_processed))
